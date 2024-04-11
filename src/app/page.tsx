@@ -10,7 +10,6 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-10">
-      <h1 className="text-4xl font-bold">Produtos</h1>
       <div>
         {
           cartTotal === 0 ? <p className="flex gap-2 text-lg font-bold">Carrinho vazio</p> : (

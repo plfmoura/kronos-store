@@ -35,7 +35,7 @@ export default function ProductCard({
             </div>
             <button
                 onClick={onPress}
-                className="w-full bg-white text-slate-800 font-semibold px-4 py-2 rounded-md"
+                className="w-full bg-gray-700 hover:bg-gray-900 transition-all text-white font-semibold px-4 py-2 rounded-md"
             >
                 Adicionar ao carrinho
             </button>
