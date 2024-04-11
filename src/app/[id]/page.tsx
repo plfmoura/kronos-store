@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import ProductDetails from "./ui/ProductDetails";
 
-
 export default function page({ params }: { params: { id: string } }) {
 
   return (

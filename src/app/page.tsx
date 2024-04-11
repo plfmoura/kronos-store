@@ -1,6 +1,8 @@
 'use client';
 
+import Headline from "@/components/Headline";
 import ProductCard from "@/components/ProductCard";
+import Promotion from "@/components/Promotion";
 import { useProductsStore } from "@/store/ProductsStore";
 
 export default function Home() {
@@ -10,7 +12,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-10">
-      
+      <Headline />
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-10">
         {
           products.map((item) => (
@@ -25,6 +27,7 @@ export default function Home() {
           ))
         }
       </div>
+      <Promotion />
     </main>
   );
 }
