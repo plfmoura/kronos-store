@@ -18,12 +18,6 @@ export default function Navbar() {
                     className="font-medium text-sm transition-colors hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-50"
                     href="#"
                 >
-                    Services
-                </Link>
-                <Link
-                    className="font-medium text-sm transition-colors hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-50"
-                    href="#"
-                >
                     About Us
                 </Link>
                 <Link
