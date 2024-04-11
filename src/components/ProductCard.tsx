@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type ProductCardProps = {
     id: number;
@@ -6,7 +7,6 @@ type ProductCardProps = {
     name: string;
     price: number;
     stock: number;
-    onPress: () => void;
 };
 
 export default function ProductCard({
@@ -15,8 +15,9 @@ export default function ProductCard({
     name,
     price,
     stock,
-    onPress,
 }: ProductCardProps) {
+    const router = useRouter();
+
     return (
         <div
             className="p-4 border border-gray-200 rounded-md flex flex-col items-center gap-2"
@@ -34,10 +35,10 @@ export default function ProductCard({
                 <p>Em estoque: {stock}</p>
             </div>
             <button
-                onClick={onPress}
+                onClick={() => router.push(`/${id}`)}
                 className="w-full bg-gray-700 hover:bg-gray-900 transition-all text-white font-semibold px-4 py-2 rounded-md"
             >
-                Adicionar ao carrinho
+                Check this product
             </button>
         </div>
     );
