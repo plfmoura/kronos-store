@@ -14,7 +14,6 @@ export default function Navbar() {
         <nav className="flex h-14 w-full items-center px-4 md:px-6 dark:bg-gray-900">
             <Link className="mr-auto" href="/">
                 <h1 className="text-4xl font-bold">Kronos Store</h1>
-                <span className="sr-only">Acme Inc</span>
             </Link>
             <nav className="flex items-center space-x-4">
                 <Link
