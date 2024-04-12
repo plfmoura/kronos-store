@@ -1,14 +1,11 @@
 'use client';
 
 import Headline from "@/components/Headline";
-import ProductCard from "@/components/ProductCard";
-import Promotion from "@/components/Promotion";
+import ProductCard from "@/components/products/ProductCard";
 import { useProductsStore } from "@/store/ProductsStore";
 
 export default function Home() {
-  const [products, cart, addToCart] = useProductsStore((state) => [state.products, state.cart, state.addToCart]);
-
-  const cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
+  const [products] = useProductsStore((state) => [state.products, state.cart, state.addToCart]);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-10">
@@ -27,7 +24,6 @@ export default function Home() {
           ))
         }
       </div>
-      <Promotion />
     </main>
   );
 }

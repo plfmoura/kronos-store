@@ -4,7 +4,6 @@
 import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { RadioGroupItem, RadioGroup } from "@/components/ui/radio-group"
 import { SelectValue, SelectTrigger, SelectItem, SelectContent, Select } from "@/components/ui/select"
@@ -31,6 +30,9 @@ export default function ProductInfo({
                                 name={selectedProduct.name}
                                 price={selectedProduct.price}
                                 rating={5}
+                                onCart={() => {
+                                    addToCart(selectedProduct.id);
+                                }}
                             />
                             <ProductGallery
                                 image={selectedProduct.image}
@@ -52,10 +54,12 @@ const ProductDetails = ({
     name,
     price,
     rating,
+    onCart,
 }: {
     name: string,
     price: number,
-    rating: number
+    rating: number,
+    onCart: () => void,
 }) => {
     return (
         <div className="grid gap-4 md:gap-8 items-start">
@@ -167,7 +171,7 @@ const ProductDetails = ({
                         </SelectContent>
                     </Select>
                 </div>
-                <Button size="lg">Add to cart</Button>
+                <Button onClick={onCart} type="button" size="lg">Add to cart</Button>
             </form>
         </div>
     )

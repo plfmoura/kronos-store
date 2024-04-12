@@ -1,0 +1,142 @@
+[
+    {
+        "id": 1,
+        "image": "/assets/clock1.webp",
+        "name": "Omega Seamaster",
+        "price": 1000,
+        "stock": 15
+    },
+    {
+        "id": 2,
+        "image": "/assets/clock2.webp",
+        "name": "Rolex Submariner",
+        "price": 2000,
+        "stock": 18
+    },
+    {
+        "id": 3,
+        "image": "/assets/clock3.webp",
+        "name": "Tag Heuer Carrera",
+        "price": 3000,
+        "stock": 12
+    },
+    {
+        "id": 4,
+        "image": "/assets/clock4.webp",
+        "name": "Breitling Navitimer",
+        "price": 4000,
+        "stock": 20
+    },
+    {
+        "id": 5,
+        "image": "/assets/clock2.webp",
+        "name": "Hublot Big Bang",
+        "price": 5000,
+        "stock": 17
+    },
+    {
+        "id": 6,
+        "image": "/assets/clock5.webp",
+        "name": "Patek Philippe Nautilus",
+        "price": 6000,
+        "stock": 14
+    },
+    {
+        "id": 7,
+        "image": "/assets/clock3.webp",
+        "name": "Audemars Piguet Royal Oak",
+        "price": 7000,
+        "stock": 16
+    },
+    {
+        "id": 8,
+        "image": "/assets/clock4.webp",
+        "name": "IWC Portugieser",
+        "price": 8000,
+        "stock": 13
+    },
+    {
+        "id": 9,
+        "image": "/assets/clock6.webp",
+        "name": "Panerai Luminor",
+        "price": 9000,
+        "stock": 19
+    },
+    {
+        "id": 10,
+        "image": "/assets/clock3.webp",
+        "name": "Cartier Tank",
+        "price": 10000,
+        "stock": 11
+    },
+    {
+        "id": 11,
+        "image": "/assets/clock1.webp",
+        "name": "Tag Heuer Monaco",
+        "price": 3200,
+        "stock": 22
+    },
+    {
+        "id": 12,
+        "image": "/assets/clock2.webp",
+        "name": "Seiko SKX007",
+        "price": 35000,
+        "stock": 5
+    },
+    {
+        "id": 13,
+        "image": "/assets/clock4.webp",
+        "name": "Citizen Promaster",
+        "price": 22000,
+        "stock": 8
+    },
+    {
+        "id": 14,
+        "image": "/assets/clock6.webp",
+        "name": "Timex Expedition",
+        "price": 10000,
+        "stock": 30
+    },
+    {
+        "id": 15,
+        "image": "/assets/clock5.webp",
+        "name": "Casio F91W",
+        "price": 1500,
+        "stock": 40
+    },
+    {
+        "id": 16,
+        "image": "/assets/clock4.webp",
+        "name": "Fossil Grant Sport",
+        "price": 20000,
+        "stock": 10
+    },
+    {
+        "id": 17,
+        "image": "/assets/clock5.webp",
+        "name": "Swatch Sistem51",
+        "price": 15000,
+        "stock": 25
+    },
+    {
+        "id": 18,
+        "image": "/assets/clock1.webp",
+        "name": "Bulova Moonwatch",
+        "price": 80000,
+        "stock": 18
+    },
+    {
+        "id": 19,
+        "image": "/assets/clock6.webp",
+        "name": "Nixon Time Teller",
+        "price": 7000,
+        "stock": 35
+    },
+    {
+        "id": 20,
+        "image": "/assets/clock3.webp",
+        "name": "Skagen Falster",
+        "price": 25000,
+        "stock": 12
+    }
+]

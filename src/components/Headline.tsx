@@ -2,10 +2,13 @@
 
 import { useProductsStore } from "@/store/ProductsStore"
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Headline() {
     const products = useProductsStore((state) => state.products);
     const item = products[9];
+
+    const router = useRouter();
 
     return (
         <div className="bg-white pb-6 sm:pb-8 lg:pb-12">
@@ -28,6 +31,7 @@ export default function Headline() {
 
                             <div className="flex flex-col gap-2.5 sm:flex-row sm:justify-center lg:justify-start">
                                 <button
+                                    onClick={() => router.push(`/products/${item.id}`)}
                                     className="bg-gray-700 hover:bg-gray-900 transition-all text-white font-semibold px-8 py-2 rounded-md"
                                 >
                                     Shop Now
@@ -41,7 +45,7 @@ export default function Headline() {
                             </div>
 
                         </div>
-                        <div className="h-4/5 sm:h-96 overflow-hidden rounded-lg  shadow-lg lg:h-auto lg:w-full xl:w-5/12">
+                        <div className="h-4/5 sm:h-96 overflow-hidden rounded-lg shadow-lg lg:h-auto lg:w-full xl:w-5/12">
                             <Image
                                 src={item.image}
                                 loading="lazy"
