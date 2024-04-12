@@ -9,6 +9,7 @@ import { useAppStore } from '@/store/AppStore';
 import { ProductsItem, useProductsStore } from '@/store/ProductsStore';
 import { Separator } from './ui/separator';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function Cart({
     onClose,
@@ -16,6 +17,20 @@ export default function Cart({
     onClose: () => void;
 }) {
     const { cart } = useProductsStore((state) => state);
+    const { showSignIn, closeDrawer, user } = useAppStore();
+    const router = useRouter();
+
+    const handleProceedToCheckout = () => {
+        if (user) {
+            router.push('/');
+            closeDrawer();
+        } else {
+            closeDrawer();
+            setTimeout(() => {
+                showSignIn();
+            }, 300);
+        };
+    };
 
     return (
         <CardContent>
@@ -37,7 +52,9 @@ export default function Cart({
                     <CartProductsList
                         data={cart}
                     />
-                    <CartProductsInfo />
+                    <CartProductsInfo
+                        onCheckout={() => handleProceedToCheckout()}
+                    />
                 </>
             ) : (
                 <div className="flex items-center justify-center mt-12 h-full">
@@ -105,7 +122,11 @@ const CartProductsList = ({
     )
 };
 
-const CartProductsInfo = () => {
+const CartProductsInfo = ({
+    onCheckout,
+}: {
+    onCheckout: () => void;
+}) => {
     return (
         <div className='w-full h-full'>
             <div className="flex flex-col gap-1.5 ">
@@ -126,7 +147,7 @@ const CartProductsInfo = () => {
                     <div className="ml-auto font-semibold">$387.16</div>
                 </div>
             </div>
-            <Button className="mt-4 w-full lg:w-auto">Proceed to Checkout</Button>
+            <Button className="mt-4 w-full lg:w-auto" onClick={onCheckout}>Proceed to Checkout</Button>
         </div>
     )
 };

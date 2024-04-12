@@ -8,7 +8,11 @@ import Link from "next/link"
 export default function Navbar() {
     const cart = useProductsStore((state) => state.cart);
     const cart_count = cart.length;
-    const { setDrawerOpen } = useAppStore();
+    const { showCart, user, setUser, showSignIn } = useAppStore();
+
+    const handleLogout = () => {
+        setUser(null);
+    }
 
     return (
         <nav className="flex h-14 w-full items-center px-4 md:px-6 dark:bg-gray-900">
@@ -34,10 +38,29 @@ export default function Navbar() {
                 >
                     Contact
                 </Link>
+                {
+                    user ? (
+                        <Link
+                            className="font-medium text-sm transition-colors hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-50"
+                            href="#"
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </Link>
+                    ) : (
+                        <Link
+                            className="font-medium text-sm transition-colors hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-50"
+                            href="#"
+                            onClick={showSignIn}
+                        >
+                            Login
+                        </Link>
+                    )
+                }
                 <Link
                     className="font-medium text-sm transition-colors hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-50"
                     href="#"
-                    onClick={() => setDrawerOpen(true)}
+                    onClick={showCart}
                 >
                     <p className="flex gap-2 text-lg font-bold relative text-indigo-500"><ShoppingCartIcon />
                         {
