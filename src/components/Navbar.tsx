@@ -12,7 +12,27 @@ export default function Navbar() {
 
     const handleLogout = () => {
         setUser(null);
-    }
+    };
+
+    const nav_content = [
+        {
+            title: 'Products',
+            link: '/products'
+        },
+        {
+            title: 'About Us',
+            link: '/about'
+        },
+        {
+            title: 'Contact',
+            link: '#'
+        },
+        {
+            title: !user ? 'Login' : 'Logout',
+            link: '#',
+            onClick: !user ? showSignIn : handleLogout
+        },
+    ];
 
     return (
         <nav className="flex h-14 w-full items-center px-4 md:px-6 dark:bg-gray-900">
@@ -20,43 +40,16 @@ export default function Navbar() {
                 <h1 className="text-4xl font-bold">Kronos Store</h1>
             </Link>
             <nav className="flex items-center space-x-4">
-                <Link
-                    className="font-medium text-sm transition-colors hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-50"
-                    href="/products"
-                >
-                    Products
-                </Link>
-                <Link
-                    className="font-medium text-sm transition-colors hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-50"
-                    href="/about"
-                >
-                    About Us
-                </Link>
-                <Link
-                    className="font-medium text-sm transition-colors hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-50"
-                    href="#"
-                >
-                    Contact
-                </Link>
-                {
-                    user ? (
-                        <Link
-                            className="font-medium text-sm transition-colors hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-50"
-                            href="#"
-                            onClick={handleLogout}
-                        >
-                            Logout
-                        </Link>
-                    ) : (
-                        <Link
-                            className="font-medium text-sm transition-colors hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-50"
-                            href="#"
-                            onClick={showSignIn}
-                        >
-                            Login
-                        </Link>
-                    )
-                }
+                {nav_content.map((item, index) => (
+                    <Link
+                        key={index}
+                        className="font-medium text-sm transition-colors hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-50"
+                        href={item.link}
+                        onClick={item.onClick}
+                    >
+                        {item.title}
+                    </Link>
+                ))}
                 <Link
                     className="font-medium text-sm transition-colors hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-50"
                     href="#"
