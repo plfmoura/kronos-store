@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Drawer from "@/components/Drawer";
+import { Toast } from "@radix-ui/react-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 

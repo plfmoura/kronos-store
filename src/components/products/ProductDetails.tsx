@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { useProductsStore } from "@/store/ProductsStore"
 import { StarIcon } from "@/components/icons/StarIcon"
 import Image from "next/image"
+import { useRouter } from "next/navigation";
 
 export default function ProductInfo({
     id
@@ -19,6 +20,14 @@ export default function ProductInfo({
 }) {
     const [products, cart, addToCart] = useProductsStore((state) => [state.products, state.cart, state.addToCart]);
     const selectedProduct = products.find((product) => product.id === Number(id));
+    const router = useRouter();
+
+    const handleAddToCart = (id: number) => {
+        addToCart(id);
+
+        // TO DO add toast message to confirm product added to cart before redirecting
+        router.push("/products");
+    };
 
     return (
         <>
@@ -31,7 +40,7 @@ export default function ProductInfo({
                                 price={selectedProduct.price}
                                 rating={5}
                                 onCart={() => {
-                                    addToCart(selectedProduct.id);
+                                    handleAddToCart(selectedProduct.id);
                                 }}
                             />
                             <ProductGallery
