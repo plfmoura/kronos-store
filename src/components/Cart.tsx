@@ -22,7 +22,7 @@ export default function Cart({
 
     const handleProceedToCheckout = () => {
         if (user) {
-            router.push('/');
+            router.push('/checkout');
             closeDrawer();
         } else {
             closeDrawer();
