@@ -24,25 +24,34 @@ export default function Drawer() {
     }, [drawerOpen]);
 
     return (
-        <Card className={
-            `fixed top-0 right-0 h-full w-full sm:w-[70%] md:w-[60%] lg:w-[40%] xl:w-1/3 transform transition-transform duration-300 ease-in-out ${drawerOpen ? 'translate-x-0' : 'translate-x-full'
-            }`
-        } >
-            {
-                drawerContent === 'cart' ? (
-                    <Cart
-                        onClose={() => closeDrawer()}
-                    />
-                ) : drawerContent === 'signin' ? (
-                    <SignIn
-                        onClose={() => closeDrawer()}
-                    />
-                ) : drawerContent === 'singup' ? (
-                    <SignUp
-                        onClose={() => closeDrawer()}
-                    />
-                ) : null
-            }
-        </ Card>
+        <>
+            <Card className={
+                `fixed z-[51] top-0 right-0 h-full w-full sm:w-[70%] md:w-[60%] lg:w-[40%] xl:w-1/3 transform transition-transform duration-300 ease-in-out ${drawerOpen ? 'translate-x-0' : 'translate-x-full'
+                }`
+            } >
+                {
+                    drawerContent === 'cart' ? (
+                        <Cart
+                            onClose={() => closeDrawer()}
+                        />
+                    ) : drawerContent === 'signin' ? (
+                        <SignIn
+                            onClose={() => closeDrawer()}
+                        />
+                    ) : drawerContent === 'singup' ? (
+                        <SignUp
+                            onClose={() => closeDrawer()}
+                        />
+                    ) : null
+                }
+            </ Card>
+            {drawerOpen && <DrawerOverlay />}
+        </>
+    )
+};
+
+const DrawerOverlay = () => {
+    return (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50" />
     )
 };
