@@ -13,8 +13,9 @@ export default function Footer() {
                         </div>
 
                         <p className="mb-6 text-gray-500 sm:pr-8">
-                            Filler text is dummy text which has no meaning however looks very
-                            similar to real text.
+                            Tempo de elegância e precisão. Descubra o melhor em relógios importados.
+                            Siga-nos para estar sempre em sincronia com o estilo. © Kronos Store 2024
+
                         </p>
 
                         <div className="flex gap-4">
@@ -118,11 +119,11 @@ export default function Footer() {
                         </div>
 
                         <nav className="flex flex-col gap-4">
-                            <div>
+                            <Link href="/about">
                                 <button className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
-                                    Sobre
+                                    About
                                 </button>
-                            </div>
+                            </Link>
 
                             <div>
                                 <button className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
@@ -136,17 +137,6 @@ export default function Footer() {
                                 </button>
                             </div>
 
-                            <div>
-                                <button className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
-                                    Imprensa
-                                </button>
-                            </div>
-
-                            <div>
-                                <button className="text-gray-500 transition duration-100 hover:text-indigo-500 active:text-indigo-600">
-                                    Blog
-                                </button>
-                            </div>
                         </nav>
                     </div>
 
@@ -210,7 +200,7 @@ export default function Footer() {
                 </div>
 
                 <div className="border-t py-8 text-center text-sm text-gray-400">
-                    © 2023 - Hey Jude, Inc. Todos os direitos reservados.
+                    © 2023 - Kronos Store, Inc. Todos os direitos reservados.
                 </div>
             </footer>
         </div>
