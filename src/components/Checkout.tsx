@@ -9,9 +9,11 @@ import { Button } from "@/components/ui/button"
 import { useProductsStore } from "@/store/ProductsStore"
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAppStore } from "@/store/AppStore";
 
 export default function Checkout() {
     const router = useRouter();
+    const { user, showSignIn } = useAppStore();
     const { cart } = useProductsStore();
     const cart_total = cart.reduce((acc, item) => acc + item.price, 0);
 
@@ -27,6 +29,13 @@ export default function Checkout() {
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const handleSubmitPayment = () => {
+        console.log("Payment submitted");
+        if(!user) {
+            showSignIn();
+        }
+    };
 
     return (
         <Card className="w-full max-w-4xl p-6 grid gap-6">
@@ -110,7 +119,7 @@ export default function Checkout() {
                     <div className="text-3xl font-extrabold">${cart_total.toFixed(2)}</div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">Includes all taxes and fees</div>
                 </div>
-                <Button size="lg">Pay now</Button>
+                <Button size="lg" onClick={handleSubmitPayment}>Pay now</Button>
             </CardFooter>
         </Card>
     )
