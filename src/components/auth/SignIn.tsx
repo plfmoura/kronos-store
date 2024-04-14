@@ -6,14 +6,38 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useAppStore } from "@/store/AppStore"
 import { useRouter } from "next/navigation"
+import { supabase } from "@/lib/supabase"
+import { useState } from "react"
 
 export default function SignIn({
   onClose,
 }: {
   onClose: () => void;
 }) {
+  const [data, setData] = useState<{
+    email: string;
+    password: string;
+  }>({
+    email: '',
+    password: '',
+  });
   const { showSignUp, closeDrawer, setUser } = useAppStore();
   const router = useRouter();
+
+  const login = async () => {
+    try {
+      let { data, error } = await supabase
+        .auth
+        .signInWithPassword({
+          email: 'someone@email.com',
+          password: 'aqckbSNAfiFjCHDCHWDo'
+        })
+      if (data) console.log(data);
+      if (error) console.log(error);
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   const handleShowSignUp = () => {
     closeDrawer();
@@ -25,18 +49,27 @@ export default function SignIn({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // handle login logic here
-    try {
-      setUser({
-        id: '1',
-        email: '',
-        name: 'John Doe',
-        role: 'user',
-      });
-      closeDrawer();
-      router.push('/');
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   setUser({
+    //     id: '1',
+    //     email: '',
+    //     name: 'John Doe',
+    //     role: 'user',
+    //   });
+    //   closeDrawer();
+    //   router.push('/');
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    console.log(data)
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
@@ -57,7 +90,14 @@ export default function SignIn({
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" placeholder="m@example.com" required type="email" />
+          <Input
+            id="email"
+            placeholder="m@example.com"
+            required
+            value={data?.email}
+            type="email"
+            onChange={handleChange}
+          />
         </div>
         <div className="space-y-2">
           <div className="flex items-center">
@@ -66,7 +106,13 @@ export default function SignIn({
               Forgot your password?
             </Link>
           </div>
-          <Input id="password" required type="password" />
+          <Input
+            id="password"
+            required
+            type="password"
+            value={data?.password}
+            onChange={handleChange}
+          />
         </div>
         <div className="space-y-4 ">
           <Button className="w-full" type="submit">
