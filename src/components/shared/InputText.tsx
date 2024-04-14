@@ -11,6 +11,7 @@ export default function InputText({
     required,
     disabled,
     className,
+    id,
 }: {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
     value?: string,
@@ -21,6 +22,7 @@ export default function InputText({
     required?: boolean,
     disabled?: boolean,
     className?: string,
+    id?: string,
 }) {
     return (
         <div className="space-y-2">
@@ -34,6 +36,7 @@ export default function InputText({
                 required={required}
                 disabled={disabled}
                 className={className + ' '}
+                id={id}
             />
         </div>
 

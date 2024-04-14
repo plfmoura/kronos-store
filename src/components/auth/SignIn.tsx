@@ -8,6 +8,13 @@ import { useAppStore } from "@/store/AppStore"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { useState } from "react"
+import InputText from "../shared/InputText"
+import { Formik, Field, Form, FormikHelpers } from 'formik';
+
+interface FormValues {
+  email: string;
+  password: string;
+}
 
 export default function SignIn({
   onClose,
@@ -64,14 +71,6 @@ export default function SignIn({
     console.log(data)
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   return (
     <CardContent className="space-y-4">
       <CardHeader className='h-[10%] px-0 flex flex-row justify-between items-center'>
@@ -87,42 +86,55 @@ export default function SignIn({
           <span>Close</span>
         </Button>
       </CardHeader>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            placeholder="m@example.com"
-            required
-            value={data?.email}
-            type="email"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="space-y-2">
-          <div className="flex items-center">
-            <Label htmlFor="password">Password</Label>
-            <Link className="ml-auto inline-block text-sm underline" href="#">
-              Forgot your password?
-            </Link>
-          </div>
-          <Input
-            id="password"
-            required
-            type="password"
-            value={data?.password}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="space-y-4 ">
-          <Button className="w-full" type="submit">
-            Login
-          </Button>
-          <Button className="w-full" variant="outline">
-            Login with Google
-          </Button>
-        </div>
-      </form>
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        onSubmit={(values, { setSubmitting }) => {
+          console.log(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleSubmit,
+          isSubmitting,
+        }) => (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <InputText
+                name="email"
+                label="Email"
+                id="email"
+                onChange={handleChange}
+                value={values.email}
+              />
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center">
+                <Link className="ml-auto inline-block text-sm underline" href="#">
+                  Forgot your password?
+                </Link>
+              </div>
+              <InputText
+                name="password"
+                id="password"
+                label="Password"
+                onChange={handleChange}
+                value={values.password}
+              />
+            </div>
+            <div className="space-y-4 ">
+              <Button className="w-full" type="submit">
+                Login
+              </Button>
+              <Button className="w-full" variant="outline">
+                Login with Google
+              </Button>
+            </div>
+          </form>)}
+      </Formik>
       <CardFooter className="text-center text-sm">
         Don't have an account?
         <Link className="underline" href="#" onClick={handleShowSignUp}>
