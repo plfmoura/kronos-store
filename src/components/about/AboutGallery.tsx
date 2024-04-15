@@ -6,14 +6,14 @@ export default function AboutGallery() {
                 <div className="w-full px-3 sm:px-4 xl:w-1/2">
                     <div className="py-3 sm:py-4">
                         <img
-                            src="https://images.unsplash.com/photo-1536765020055-a6b775a271a0?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src="https://th.bing.com/th/id/R.7c562cec91e409bc7ffa9b2d5e7f514f?rik=MGYdjrSQ6cH8vA&riu=http%3a%2f%2fblog.goldfinger.com.br%2fwp-content%2fuploads%2f2013%2f12%2fshutterstock_86113621.jpg&ehk=myDw%2feQDHosX2bUdooQR7NkD5SKjCqqPESsgYL84i6w%3d&risl=&pid=ImgRaw&r=0"
                             alt=""
                             className="w-full rounded-2xl"
                         />
                     </div>
                     <div className="py-3 sm:py-4">
                         <img
-                            src="https://images.unsplash.com/photo-1541186877-bb5a745edde5?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src="https://mambos.com.br/wp-content/uploads/2019/09/no-pulso-dourado.jpg"
                             alt=""
                             className="w-full rounded-2xl"
                         />
@@ -22,7 +22,7 @@ export default function AboutGallery() {
                 <div className="w-full px-3 sm:px-4 xl:w-1/2">
                     <div className="relative z-10 my-4">
                         <img
-                            src="https://images.unsplash.com/photo-1632660610478-b89b370c5c4d?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src="https://i.pinimg.com/originals/fb/97/e0/fb97e0bfcc281214a23ab52d181a4b7d.jpg"
                             alt=""
                             className="w-full rounded-2xl"
                         />
