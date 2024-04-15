@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import InputText from "../shared/InputText"
 import { Formik } from 'formik';
+import { useState } from "react"
 
 interface FormValues {
   email: string;
@@ -19,6 +20,7 @@ export default function SignIn({
   onClose: () => void;
 }) {
   const { showSignUp, closeDrawer, setUser } = useAppStore();
+  const [showError, setShowError] = useState<string | null>(null);
   const router = useRouter();
 
   const initialFormValues = { email: '', password: '' };
@@ -40,8 +42,15 @@ export default function SignIn({
           email: values.email,
           password: values.password
         })
-      if (data) {
-        console.log(data);
+      if (error) {
+        setShowError(error.message);
+
+        setTimeout(() => {
+          setShowError(null);
+        }, 3000);
+        return;
+      }
+      if (data.user) {
         setUser(data);
       }
       closeDrawer();
@@ -102,21 +111,22 @@ export default function SignIn({
               />
             </div>
             <div className="space-y-2">
-              <div className="flex items-center">
-                <Link className="ml-auto inline-block text-sm underline" href="#">
-                  Forgot your password?
-                </Link>
-              </div>
               <InputText
                 name="password"
                 id="password"
                 type="password"
                 label="Password"
+                rightLabel={
+                  <Link className="ml-auto text-sm underline" href="#">
+                    Forgot your password?
+                  </Link>
+                }
                 onChange={handleChange}
                 value={values.password}
               />
             </div>
-            <div className="space-y-4 ">
+            <div className="text-red-500 text-sm h-4">{showError}</div>
+            <div className="space-y-4">
               <Button className="w-full" type="submit">
                 Login
               </Button>
