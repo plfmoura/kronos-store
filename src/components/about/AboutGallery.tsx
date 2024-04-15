@@ -6,14 +6,14 @@ export default function AboutGallery() {
                 <div className="w-full px-3 sm:px-4 xl:w-1/2">
                     <div className="py-3 sm:py-4">
                         <img
-                            src="https://th.bing.com/th/id/R.7c562cec91e409bc7ffa9b2d5e7f514f?rik=MGYdjrSQ6cH8vA&riu=http%3a%2f%2fblog.goldfinger.com.br%2fwp-content%2fuploads%2f2013%2f12%2fshutterstock_86113621.jpg&ehk=myDw%2feQDHosX2bUdooQR7NkD5SKjCqqPESsgYL84i6w%3d&risl=&pid=ImgRaw&r=0"
+                            src="https://images.unsplash.com/photo-1456444029056-7dfaeeb83a19?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bHV4dXJ5JTIwcm9sZXglMjB3YXRjaHxlbnwwfHwwfHx8MA%3D%3D"
                             alt=""
                             className="w-full rounded-2xl"
                         />
                     </div>
                     <div className="py-3 sm:py-4">
                         <img
-                            src="https://mambos.com.br/wp-content/uploads/2019/09/no-pulso-dourado.jpg"
+                            src="https://images.unsplash.com/photo-1667754548555-60edbda0f615?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGx1eHVyeSUyMHJvbGV4JTIwd2F0Y2h8ZW58MHx8MHx8fDA%3D"
                             alt=""
                             className="w-full rounded-2xl"
                         />
@@ -22,7 +22,7 @@ export default function AboutGallery() {
                 <div className="w-full px-3 sm:px-4 xl:w-1/2">
                     <div className="relative z-10 my-4">
                         <img
-                            src="https://i.pinimg.com/originals/fb/97/e0/fb97e0bfcc281214a23ab52d181a4b7d.jpg"
+                            src="https://images.unsplash.com/photo-1517463700628-5103184eac47?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt=""
                             className="w-full rounded-2xl"
                         />
