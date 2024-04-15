@@ -19,15 +19,19 @@ export default function SignIn({
 }: {
   onClose: () => void;
 }) {
-  const { showSignUp, closeDrawer, setUser } = useAppStore();
+  const { showSignUp, closeDrawer, setUser, showRecovery } = useAppStore();
   const [showError, setShowError] = useState<string | null>(null);
   const router = useRouter();
 
   const initialFormValues = { email: '', password: '' };
 
-  const handleShowSignUp = () => {
+  const handleShowDrawerContent = (target?: string) => {
     closeDrawer();
     setTimeout(() => {
+      if(target === 'recovery') {
+        showRecovery();
+        return;
+      }
       showSignUp();
     }, 300);
   };
@@ -117,7 +121,7 @@ export default function SignIn({
                 type="password"
                 label="Password"
                 rightLabel={
-                  <Link className="ml-auto text-sm underline" href="#">
+                  <Link className="ml-auto text-sm underline" href="#" onClick={() => handleShowDrawerContent('recovery')}>
                     Forgot your password?
                   </Link>
                 }
@@ -138,7 +142,7 @@ export default function SignIn({
       </Formik>
       <CardFooter className="text-center text-sm">
         Don't have an account?
-        <Link className="underline" href="#" onClick={handleShowSignUp}>
+        <Link className="underline" href="#" onClick={() => handleShowDrawerContent()}>
           Sign up
         </Link>
       </CardFooter>

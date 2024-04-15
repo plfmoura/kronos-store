@@ -9,11 +9,12 @@ type UserProps = {
 
 type AppStore = {
     drawerOpen: boolean;
-    drawerContent: 'cart' | 'signin' | 'signup';
+    drawerContent: 'cart' | 'signin' | 'signup' | 'recovery';
     closeDrawer: () => void;
     showSignIn: () => void;
     showSignUp: () => void;
     showCart: () => void;
+    showRecovery: () => void;
 
     // user temporary resources 
     user: UserProps | null;
@@ -28,6 +29,7 @@ export const useAppStore = create<AppStore>((set) => ({
     showSignIn: () => set({ drawerContent: 'signin', drawerOpen: true }),
     showSignUp: () => set({ drawerContent: 'signup', drawerOpen: true }),
     showCart: () => set({ drawerContent: 'cart', drawerOpen: true }),
+    showRecovery: () => set({ drawerContent: 'recovery', drawerOpen: true }),
 
     // user temporary resources 
     // user: {

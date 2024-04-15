@@ -7,9 +7,10 @@ import Cart from './Cart';
 import SignUp from "./auth/SingUp";
 import SignIn from "./auth/SignIn";
 import { useEffect } from "react";
+import RecoveryPassword from "./auth/RecoveryPassword";
 
 export default function Drawer() {
-    const { drawerOpen, closeDrawer, drawerContent, user, showCart } = useAppStore();
+    const { drawerOpen, closeDrawer, drawerContent } = useAppStore();
 
     useEffect(() => {
         if (drawerOpen) {
@@ -28,6 +29,7 @@ export default function Drawer() {
             "cart": <Cart onClose={() => closeDrawer()} />,
             "signin": <SignIn onClose={() => closeDrawer()} />,
             "signup": <SignUp onClose={() => closeDrawer()} />,
+            "recovery": <RecoveryPassword onClose={() => closeDrawer()} />,
         };
 
         return content[drawerContent];
