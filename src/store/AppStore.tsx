@@ -1,15 +1,15 @@
+import { Session, User, WeakPassword } from '@supabase/supabase-js';
 import { create } from 'zustand';
 
 type UserProps = {
-    id: string;
-    email: string;
-    name: string;
-    role: 'user' | 'admin';
+    user: User | null;
+    session: Session | null;
+    weakPassword?: WeakPassword | undefined | null;
 };
 
 type AppStore = {
     drawerOpen: boolean;
-    drawerContent: 'cart' | 'signin' | 'singup' | null;
+    drawerContent: 'cart' | 'signin' | 'signup';
     closeDrawer: () => void;
     showSignIn: () => void;
     showSignUp: () => void;
@@ -23,10 +23,10 @@ type AppStore = {
 
 export const useAppStore = create<AppStore>((set) => ({
     drawerOpen: false,
-    drawerContent: null,
+    drawerContent: 'cart',
     closeDrawer: () => set({ drawerOpen: false }),
     showSignIn: () => set({ drawerContent: 'signin', drawerOpen: true }),
-    showSignUp: () => set({ drawerContent: 'singup', drawerOpen: true }),
+    showSignUp: () => set({ drawerContent: 'signup', drawerOpen: true }),
     showCart: () => set({ drawerContent: 'cart', drawerOpen: true }),
 
     // user temporary resources 

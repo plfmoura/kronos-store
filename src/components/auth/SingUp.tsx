@@ -4,6 +4,16 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useAppStore } from "@/store/AppStore"
+import { supabase } from "@/lib/supabase"
+import { Formik } from 'formik'
+import InputText from "../shared/InputText"
+
+interface FormValues {
+    name: string;
+    surname: string;
+    email: string;
+    password: string;
+}
 
 export default function SignUp({
     onClose,
@@ -13,10 +23,34 @@ export default function SignUp({
     const { showSignIn, closeDrawer } = useAppStore();
 
     const handleShowSignIn = () => {
-      closeDrawer();
-      setTimeout(() => {
-        showSignIn();
-      }, 300);
+        closeDrawer();
+        setTimeout(() => {
+            showSignIn();
+        }, 300);
+    };
+    const initialFormValues = {
+        name: '',
+        surname: '',
+        email: '',
+        password: ''
+    };
+
+    const handleSubmitSignUp = async (values: FormValues) => {
+        console.log(values)
+
+        try {
+            let { data, error } = await supabase
+                .auth
+                .signUp({
+                    email: values.email,
+                    password: values.password
+                })
+            if (data) console.log(data);
+            if (error) console.log(error);
+            handleShowSignIn();
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     return (
@@ -34,30 +68,73 @@ export default function SignUp({
                     <span>Close</span>
                 </Button>
             </CardHeader>
-            <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                    <Label htmlFor="first-name">First name</Label>
-                    <Input id="first-name" placeholder="Lee" required />
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="last-name">Last name</Label>
-                    <Input id="last-name" placeholder="Robinson" required />
-                </div>
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" placeholder="m@example.com" required type="email" />
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input id="password" required type="password" />
-            </div>
-            <Button className="w-full" type="submit">
-                Sign Up
-            </Button>
-            <Button className="w-full" variant="outline">
-                Sign up with Google
-            </Button>
+            <Formik
+                initialValues={initialFormValues}
+                onSubmit={
+                    (values: FormValues) =>
+                        handleSubmitSignUp(values)
+                }
+            >
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleSubmit,
+                    isSubmitting,
+                }) => (
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <InputText
+                                    name="name"
+                                    label="First Name"
+                                    id="name"
+                                    placeholder="Josh"
+                                    onChange={handleChange}
+                                    value={values.name}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <InputText
+                                    name="surname"
+                                    label="Last Name"
+                                    placeholder="Smith"
+                                    id="surname"
+                                    onChange={handleChange}
+                                    value={values.surname}
+                                />
+                            </div>
+                        </div>
+                        <div className="space-y-2">
+                            <InputText
+                                name="email"
+                                label="Email"
+                                placeholder="email@provider.com"
+                                id="email"
+                                type="email"
+                                onChange={handleChange}
+                                value={values.email}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <InputText
+                                name="password"
+                                id="password"
+                                label="Password"
+                                type="password"
+                                onChange={handleChange}
+                                value={values.password}
+                            />
+                        </div>
+                        <Button className="w-full" type="submit">
+                            Sign Up
+                        </Button>
+                        <Button className="w-full" variant="outline">
+                            Sign up with Google
+                        </Button>
+                    </form>)}
+            </Formik>
             <CardFooter className="text-center text-sm">
                 Already have an account?
                 <Link className="underline" href="#" onClick={handleShowSignIn}>

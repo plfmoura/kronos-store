@@ -1,11 +1,17 @@
 /* eslint-disable react/no-unescaped-entities */
 import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useAppStore } from "@/store/AppStore"
 import { useRouter } from "next/navigation"
+import { supabase } from "@/lib/supabase"
+import InputText from "../shared/InputText"
+import { Formik } from 'formik';
+
+interface FormValues {
+  email: string;
+  password: string;
+}
 
 export default function SignIn({
   onClose,
@@ -15,6 +21,8 @@ export default function SignIn({
   const { showSignUp, closeDrawer, setUser } = useAppStore();
   const router = useRouter();
 
+  const initialFormValues = { email: '', password: '' };
+
   const handleShowSignUp = () => {
     closeDrawer();
     setTimeout(() => {
@@ -22,22 +30,34 @@ export default function SignIn({
     }, 300);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // handle login logic here
+  const handleSubmitSignIn = async (values: FormValues) => {
+    console.log(values);
+
     try {
-      setUser({
-        id: '1',
-        email: '',
-        name: 'John Doe',
-        role: 'user',
-      });
+      let { data, error } = await supabase
+        .auth
+        .signInWithPassword({
+          email: values.email,
+          password: values.password
+        })
+      if (data) {
+        console.log(data);
+        setUser(data);
+      }
       closeDrawer();
-      router.push('/');
+      router.refresh();
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   };
+
+  const handleSocialLogin = async (values: FormValues) => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    });
+    if (data) console.log(data);
+    if (error) console.log(error);
+  }
 
   return (
     <CardContent className="space-y-4">
@@ -54,29 +74,58 @@ export default function SignIn({
           <span>Close</span>
         </Button>
       </CardHeader>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" placeholder="m@example.com" required type="email" />
-        </div>
-        <div className="space-y-2">
-          <div className="flex items-center">
-            <Label htmlFor="password">Password</Label>
-            <Link className="ml-auto inline-block text-sm underline" href="#">
-              Forgot your password?
-            </Link>
-          </div>
-          <Input id="password" required type="password" />
-        </div>
-        <div className="space-y-4 ">
-          <Button className="w-full" type="submit">
-            Login
-          </Button>
-          <Button className="w-full" variant="outline">
-            Login with Google
-          </Button>
-        </div>
-      </form>
+      <Formik
+        initialValues={initialFormValues}
+        onSubmit={
+          (values: FormValues) =>
+            handleSubmitSignIn(values)
+        }
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleSubmit,
+          isSubmitting,
+        }) => (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <InputText
+                name="email"
+                label="Email"
+                type="email"
+                placeholder="email@provider.com"
+                id="email"
+                onChange={handleChange}
+                value={values.email}
+              />
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center">
+                <Link className="ml-auto inline-block text-sm underline" href="#">
+                  Forgot your password?
+                </Link>
+              </div>
+              <InputText
+                name="password"
+                id="password"
+                type="password"
+                label="Password"
+                onChange={handleChange}
+                value={values.password}
+              />
+            </div>
+            <div className="space-y-4 ">
+              <Button className="w-full" type="submit">
+                Login
+              </Button>
+              <Button className="w-full" variant="outline" onClick={() => handleSocialLogin(values)}>
+                Login with Google
+              </Button>
+            </div>
+          </form>)}
+      </Formik>
       <CardFooter className="text-center text-sm">
         Don't have an account?
         <Link className="underline" href="#" onClick={handleShowSignUp}>

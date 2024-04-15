@@ -36,7 +36,7 @@ export default function Checkout() {
             showSignIn();
         }
     };
-
+    
     return (
         <Card className="w-full max-w-4xl p-6 grid gap-6">
             <CardHeader className="border-b">
@@ -45,7 +45,7 @@ export default function Checkout() {
                     <CardDescription>Enter your payment information.</CardDescription>
                 </div>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-4">
+            <CardContent className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                     <Label htmlFor="name">Name</Label>
                     <Input id="name" placeholder="Enter your name" />
