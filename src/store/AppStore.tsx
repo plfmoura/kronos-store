@@ -1,10 +1,10 @@
+import { Session, User, WeakPassword } from '@supabase/supabase-js';
 import { create } from 'zustand';
 
 type UserProps = {
-    id: string;
-    email: string;
-    name: string;
-    role: 'user' | 'admin';
+    user: User | null;
+    session: Session | null;
+    weakPassword?: WeakPassword | undefined | null;
 };
 
 type AppStore = {

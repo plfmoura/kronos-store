@@ -1,15 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useAppStore } from "@/store/AppStore"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
-import { useState } from "react"
 import InputText from "../shared/InputText"
-import { Formik, Field, Form, FormikHelpers } from 'formik';
+import { Formik } from 'formik';
 
 interface FormValues {
   email: string;
@@ -21,30 +18,10 @@ export default function SignIn({
 }: {
   onClose: () => void;
 }) {
-  const [data, setData] = useState<{
-    email: string;
-    password: string;
-  }>({
-    email: '',
-    password: '',
-  });
   const { showSignUp, closeDrawer, setUser } = useAppStore();
   const router = useRouter();
 
-  const login = async () => {
-    try {
-      let { data, error } = await supabase
-        .auth
-        .signInWithPassword({
-          email: 'someone@email.com',
-          password: 'aqckbSNAfiFjCHDCHWDo'
-        })
-      if (data) console.log(data);
-      if (error) console.log(error);
-    } catch (error) {
-      console.log(error)
-    }
-  };
+  const initialFormValues = { email: '', password: '' };
 
   const handleShowSignUp = () => {
     closeDrawer();
@@ -53,23 +30,34 @@ export default function SignIn({
     }, 300);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // handle login logic here
-    // try {
-    //   setUser({
-    //     id: '1',
-    //     email: '',
-    //     name: 'John Doe',
-    //     role: 'user',
-    //   });
-    //   closeDrawer();
-    //   router.push('/');
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    console.log(data)
+  const handleSubmitSignIn = async (values: FormValues) => {
+    console.log(values);
+
+    try {
+      let { data, error } = await supabase
+        .auth
+        .signInWithPassword({
+          email: values.email,
+          password: values.password
+        })
+      if (data) {
+        console.log(data);
+        setUser(data);
+      }
+      closeDrawer();
+      router.refresh();
+    } catch (error) {
+      console.log(error)
+    }
   };
+
+  const handleSocialLogin = async (values: FormValues) => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    });
+    if (data) console.log(data);
+    if (error) console.log(error);
+  }
 
   return (
     <CardContent className="space-y-4">
@@ -87,11 +75,11 @@ export default function SignIn({
         </Button>
       </CardHeader>
       <Formik
-        initialValues={{ email: '', password: '' }}
-        onSubmit={(values, { setSubmitting }) => {
-          console.log(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }}
+        initialValues={initialFormValues}
+        onSubmit={
+          (values: FormValues) =>
+            handleSubmitSignIn(values)
+        }
       >
         {({
           values,
@@ -106,6 +94,8 @@ export default function SignIn({
               <InputText
                 name="email"
                 label="Email"
+                type="email"
+                placeholder="email@provider.com"
                 id="email"
                 onChange={handleChange}
                 value={values.email}
@@ -120,6 +110,7 @@ export default function SignIn({
               <InputText
                 name="password"
                 id="password"
+                type="password"
                 label="Password"
                 onChange={handleChange}
                 value={values.password}
@@ -129,7 +120,7 @@ export default function SignIn({
               <Button className="w-full" type="submit">
                 Login
               </Button>
-              <Button className="w-full" variant="outline">
+              <Button className="w-full" variant="outline" onClick={() => handleSocialLogin(values)}>
                 Login with Google
               </Button>
             </div>
