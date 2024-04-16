@@ -7,7 +7,8 @@ export type ProductsItem = {
     name: string;
     price: number;
     stock: number;
-    quantity?: number; 
+    quantity?: number;
+    total?: number; 
 };
 
 type ProductsStore = {
@@ -16,8 +17,8 @@ type ProductsStore = {
     addToCart: (id: number) => void;
     removeFromCart: (id: number) => void;
     clearCart: () => void;
-    increaseQuantity: (id: number) => void; 
-    decreaseQuantity: (id: number) => void; 
+    increaseQuantity: (id: number) => void;
+    decreaseQuantity: (id: number) => void;
 };
 
 export const useProductsStore = create<ProductsStore>((set) => ({
@@ -27,7 +28,7 @@ export const useProductsStore = create<ProductsStore>((set) => ({
             const product = state.products.find((p) => p.id === id);
             if (product) {
                 return {
-                    cart: [...state.cart, { ...product, quantity: 1 }],
+                    cart: [...state.cart, { ...product, quantity: 1, total: product.price }],
                 };
             }
             return state;
@@ -41,15 +42,28 @@ export const useProductsStore = create<ProductsStore>((set) => ({
     increaseQuantity: (id) =>
         set((state) => ({
             cart: state.cart.map((item) =>
-                item.id === id ? { ...item, quantity: (item.quantity || 0) + 1 } : item
-            ),
-        })),
-    decreaseQuantity: (id) =>
-        set((state) => ({
-            cart: state.cart.map((item) =>
-                item.id === id && item.quantity && item.quantity > 0
-                    ? { ...item, quantity: item.quantity - 1 }
+                item.id === id
+                    ? {
+                          ...item,
+                          quantity: (item.quantity || 0) + 1,
+                          total: (item.price || 0) * ((item.quantity || 0) + 1), 
+                      }
                     : item
             ),
         })),
+        decreaseQuantity: (id) =>
+            set((state) => ({
+                cart: state.cart.map((item) => {
+                    if (item.id === id && item.quantity && item.quantity > 0) {
+                        return {
+                            ...item,
+                            quantity: item.quantity - 1,
+                            total: (item.price || 0) * (item.quantity - 1),
+                        };
+                    } else {
+                        return item;
+                    }
+                }).filter((item) => item.quantity && item.quantity > 0), 
+            })),
+        
 }));
