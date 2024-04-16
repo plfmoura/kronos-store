@@ -1,10 +1,7 @@
-'use client';
-
-import React from 'react'
-import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { CheckIcon, MinusIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons"
-
+import React from 'react';
+import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { CheckIcon, MinusIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useAppStore } from '@/store/AppStore';
 import { ProductsItem, useProductsStore } from '@/store/ProductsStore';
 import { Separator } from './ui/separator';
@@ -29,7 +26,7 @@ export default function Cart({
             setTimeout(() => {
                 showSignIn();
             }, 300);
-        };
+        }
     };
 
     return (
@@ -53,6 +50,7 @@ export default function Cart({
                         data={cart}
                     />
                     <CartProductsInfo
+                        cartItems={cart}
                         onCheckout={() => handleProceedToCheckout()}
                     />
                 </>
@@ -61,9 +59,8 @@ export default function Cart({
                     <h2 className="text-lg font-semibold">Your cart is empty</h2>
                 </div>
             )}
-
         </CardContent>
-    )
+    );
 }
 
 const CartProductsList = ({
@@ -119,35 +116,48 @@ const CartProductsList = ({
                 </>
             ))}
         </div>
-    )
+    );
 };
 
 const CartProductsInfo = ({
+    cartItems,
     onCheckout,
 }: {
+    cartItems: ProductsItem[];
     onCheckout: () => void;
 }) => {
+    // Calculating subtotal
+    const subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
+    // Assuming tax rate as 10% for this example
+    const taxRate = 0.1;
+    const tax = subtotal * taxRate;
+    // Hardcoded discount for demonstration
+    const discount = 20;
+
+    // Calculating total
+    const total = subtotal + tax - discount;
+
     return (
         <div className='w-full h-full'>
             <div className="flex flex-col gap-1.5 ">
                 <div className="flex items-center gap-4">
                     <div className="font-medium">Subtotal</div>
-                    <div className="ml-auto font-semibold">$348.00</div>
+                    <div className="ml-auto font-semibold">${subtotal.toFixed(2)}</div>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="font-medium">Tax </div>
-                    <div className="ml-auto font-semibold">$59.16</div>
+                    <div className="ml-auto font-semibold">${tax.toFixed(2)}</div>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="font-medium">Discount</div>
-                    <div className="ml-auto font-semibold">-$20.00</div>
+                    <div className="ml-auto font-semibold">-${discount.toFixed(2)}</div>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="font-semibold">Total</div>
-                    <div className="ml-auto font-semibold">$387.16</div>
+                    <div className="ml-auto font-semibold">${total.toFixed(2)}</div>
                 </div>
             </div>
             <Button className="mt-4 w-full lg:w-auto" onClick={onCheckout}>Proceed to Checkout</Button>
         </div>
-    )
+    );
 };
