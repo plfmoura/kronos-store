@@ -1,4 +1,4 @@
-import React from 'react';
+import React,  { MouseEventHandler } from 'react';
 import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckIcon, MinusIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
@@ -6,6 +6,7 @@ import { useAppStore } from '@/store/AppStore';
 import { ProductsItem, useProductsStore } from '@/store/ProductsStore';
 import { Separator } from './ui/separator';
 import Image from 'next/image';
+
 import { useRouter } from 'next/navigation';
 
 export default function Cart({
@@ -68,56 +69,55 @@ const CartProductsList = ({
 }: {
     data: ProductsItem[];
 }) => {
-    const { removeFromCart } = useProductsStore((state) => state);
+    const { removeFromCart, increaseQuantity, decreaseQuantity } = useProductsStore();
 
     return (
         <div className="grid gap-4 w-full max-h-[60vh] overflow-y-scroll pr-4 my-4">
             {data.map((item) => (
-                <>
-                    <div className="flex items-center gap-4" key={item.id}>
-                        <div className="flex items-center gap-4">
-                            <Image
-                                alt={item.name}
-                                className="rounded-lg aspect-square object-cover"
-                                height={100}
-                                src={item.image}
-                                width={100}
-                            />
-                            <div className="grid gap-1.5">
-                                <h2 className="font-semibold text-lg sm:text-xl">{item.name}</h2>
-                                <div className="flex items-center gap-4">
-                                    <div className="flex items-center gap-0.5">
-                                        <CheckIcon className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                                        <span className="text-gray-500 dark:text-gray-400">In Stock</span>
-                                    </div>
-                                    <Button size="icon" variant="outline" onClick={() => removeFromCart(item.id)}>
-                                        <TrashIcon className="h-4 w-4" />
-                                        <span className="sr-only">Remove</span>
-                                    </Button>
+                <div className="flex items-center gap-4" key={item.id}>
+                    <div className="flex items-center gap-4">
+                        <Image
+                            alt={item.name}
+                            className="rounded-lg aspect-square object-cover"
+                            height={100}
+                            src={item.image}
+                            width={100}
+                        />
+                        <div className="grid gap-1.5">
+                            <h2 className="font-semibold text-lg sm:text-xl">{item.name}</h2>
+                            <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-0.5">
+                                    <CheckIcon className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                                    <span className="text-gray-500 dark:text-gray-400">In Stock</span>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="ml-auto grid gap-0.5 text-right">
-                            <h3 className="font-semibold">${item.price}</h3>
-                            <div className="flex items-center gap-2">
-                                <Button variant="outline" onClick={() => console.log('diminuir')}>
-                                    <MinusIcon className="h-2 w-2" />
-                                    <span className="sr-only">Decrease</span>
-                                </Button>
-                                <span className="text-sm font-medium">1</span>
-                                <Button variant="outline" onClick={() => console.log('aumentar')}>
-                                    <PlusIcon className="h-2 w-2" />
-                                    <span className="sr-only">Increase</span>
+                                <Button size="icon" variant="outline" onClick={() => removeFromCart(item.id)}>
+                                    <TrashIcon className="h-4 w-4" />
+                                    <span className="sr-only">Remove</span>
                                 </Button>
                             </div>
                         </div>
                     </div>
-                    <Separator />
-                </>
+                    <div className="ml-auto grid gap-0.5 text-right">
+                        <h3 className="font-semibold">${item.price}</h3>
+                        <div className="flex items-center gap-2">
+                            <Button variant="outline" onClick={() => decreaseQuantity(item.id)}>
+                                <MinusIcon className="h-2 w-2" />
+                                <span className="sr-only">Decrease</span>
+                            </Button>
+                            <span className="text-sm font-medium">{item.quantity || 1}</span>
+                            <Button variant="outline" onClick={() => increaseQuantity(item.id)}>
+                                <PlusIcon className="h-2 w-2" />
+                                <span className="sr-only">Increase</span>
+                            </Button>
+                        </div>
+                    </div>
+                </div>
             ))}
         </div>
     );
 };
+
+
 
 const CartProductsInfo = ({
     cartItems,
@@ -126,15 +126,11 @@ const CartProductsInfo = ({
     cartItems: ProductsItem[];
     onCheckout: () => void;
 }) => {
-    // Calculating subtotal
     const subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
-    // Assuming tax rate as 10% for this example
     const taxRate = 0.1;
     const tax = subtotal * taxRate;
-    // Hardcoded discount for demonstration
     const discount = 20;
 
-    // Calculating total
     const total = subtotal + tax - discount;
 
     return (
