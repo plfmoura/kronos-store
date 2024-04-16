@@ -28,7 +28,7 @@ export default function SignIn({
   const handleShowDrawerContent = (target?: string) => {
     closeDrawer();
     setTimeout(() => {
-      if(target === 'recovery') {
+      if (target === 'recovery') {
         showRecovery();
         return;
       }
@@ -46,6 +46,11 @@ export default function SignIn({
           email: values.email,
           password: values.password
         })
+
+      // const { data, error } = await supabase.auth.updateUser({
+      //   password: "new-password",
+      // })
+
       if (error) {
         setShowError(error.message);
 
@@ -55,6 +60,7 @@ export default function SignIn({
         return;
       }
       if (data.user) {
+        console.log(data.user)
         setUser(data);
       }
       closeDrawer();
