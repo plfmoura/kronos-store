@@ -7,6 +7,7 @@ import Link from 'next/link';
 import InputText from '../shared/InputText';
 import { Formik } from 'formik';
 import { useAppStore } from '@/store/AppStore';
+import { useToast } from '../ui/use-toast';
 
 export default function RecoveryPassword({
     onClose,
@@ -14,6 +15,7 @@ export default function RecoveryPassword({
     onClose: () => void;
 }) {
     const { showSignUp, closeDrawer } = useAppStore();
+    const { toast } = useToast();
   
     const handleShowSignUp = () => {
       closeDrawer();
@@ -28,7 +30,13 @@ export default function RecoveryPassword({
                 .auth
                 .resetPasswordForEmail(email);
 
-            if (data) console.log(data);
+            if (data) {
+                console.log(data);
+                toast({
+                    title: 'Recovery email sent',
+                    description: 'Check your email for further instructions',
+                })
+            };
         } catch (error) {
             console.log(error);
         }

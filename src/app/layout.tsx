@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Drawer from "@/components/Drawer";
-import { Toast } from "@radix-ui/react-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +27,7 @@ export default function RootLayout({
           <Drawer />
         </main>
         <Footer />
+        <Toaster />
       </body>
     </html>
   );

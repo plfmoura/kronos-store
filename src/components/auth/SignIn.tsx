@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase"
 import InputText from "../shared/InputText"
 import { Formik } from 'formik';
 import { useState } from "react"
+import { useToast } from "../ui/use-toast"
 
 interface FormValues {
   email: string;
@@ -22,6 +23,7 @@ export default function SignIn({
   const { showSignUp, closeDrawer, setUser, showRecovery } = useAppStore();
   const [showError, setShowError] = useState<string | null>(null);
   const router = useRouter();
+  const { toast } = useToast();
 
   const initialFormValues = { email: '', password: '' };
 
@@ -53,14 +55,20 @@ export default function SignIn({
 
       if (error) {
         setShowError(error.message);
-
+        toast({
+          title: 'Error',
+          description: error.message,
+        })
         setTimeout(() => {
           setShowError(null);
         }, 3000);
         return;
       }
       if (data.user) {
-        console.log(data.user)
+        toast({
+          title: 'Welcome back',
+          description: 'You have successfully logged in',
+        })
         setUser(data);
       }
       closeDrawer();

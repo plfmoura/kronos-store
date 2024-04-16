@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { supabase } from "@/lib/supabase"
 import { Formik } from 'formik'
 import InputText from "../shared/InputText"
+import { useToast } from "../ui/use-toast"
 
 interface FormValues {
     email: string;
@@ -11,6 +12,7 @@ interface FormValues {
 }
 
 export default function UpdatePassword() {
+    const { toast } = useToast();
 
     const initialFormValues = {
         email: '',
@@ -22,7 +24,10 @@ export default function UpdatePassword() {
         console.log(values)
 
         if (values.password !== values.confirmPassword) {
-            alert('Passwords do not match');
+            toast({
+                title: 'Passwords do not match',
+                description: 'Please make sure your passwords match',
+            })
             return;
         }
 
@@ -30,7 +35,10 @@ export default function UpdatePassword() {
             const { data: { user } } = await supabase.auth.getUser();
 
             if (user?.email !== values.email) {
-                alert('Email does not match the current user');
+                toast({
+                    title: 'Email does not match',
+                    description: 'Please make sure your email matches the current user',
+                })
                 return;
             }
 
@@ -41,10 +49,16 @@ export default function UpdatePassword() {
                 })
             if (data.user) {
                 console.log(data)
-                alert('Password updated successfully');
+                toast({
+                    title: 'Password updated',
+                    description: 'Your password has been updated successfully',
+                })
             };
             if (error?.status === 422) {
-                alert('Password must be different from the previous one');
+                toast({
+                    title: 'Password must be different',
+                    description: 'Your password must be different from the previous one',
+                })
                 return;
             }
         } catch (error) {
