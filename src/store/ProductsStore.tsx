@@ -8,7 +8,7 @@ export type ProductsItem = {
     price: number;
     stock: number;
     quantity?: number;
-    total?: number; 
+    total?: number; // Adicionando a propriedade 'total' opcional ao tipo ProductsItem para armazenar o preço total do item
 };
 
 type ProductsStore = {
@@ -28,7 +28,7 @@ export const useProductsStore = create<ProductsStore>((set) => ({
             const product = state.products.find((p) => p.id === id);
             if (product) {
                 return {
-                    cart: [...state.cart, { ...product, quantity: 1, total: product.price }],
+                    cart: [...state.cart, { ...product, quantity: 1, total: product.price }], // Inicializando a quantidade como 1 e o total como o preço do produto
                 };
             }
             return state;
@@ -46,24 +46,21 @@ export const useProductsStore = create<ProductsStore>((set) => ({
                     ? {
                           ...item,
                           quantity: (item.quantity || 0) + 1,
-                          total: (item.price || 0) * ((item.quantity || 0) + 1), 
+                          total: (item.price || 0) * ((item.quantity || 0) + 1), // Calculando o novo preço total do item
                       }
                     : item
             ),
         })),
-        decreaseQuantity: (id) =>
-            set((state) => ({
-                cart: state.cart.map((item) => {
-                    if (item.id === id && item.quantity && item.quantity > 0) {
-                        return {
-                            ...item,
-                            quantity: item.quantity - 1,
-                            total: (item.price || 0) * (item.quantity - 1),
-                        };
-                    } else {
-                        return item;
-                    }
-                }).filter((item) => item.quantity && item.quantity > 0), 
-            })),
-        
+    decreaseQuantity: (id) =>
+        set((state) => ({
+            cart: state.cart.map((item) =>
+                item.id === id && item.quantity && item.quantity > 0
+                    ? {
+                          ...item,
+                          quantity: item.quantity - 1,
+                          total: (item.price || 0) * (item.quantity || 0),
+                      }
+                    : item
+            ),
+        })),
 }));

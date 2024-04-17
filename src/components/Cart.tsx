@@ -1,19 +1,13 @@
-import React,  { MouseEventHandler } from 'react';
+import React from 'react';
 import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckIcon, MinusIcon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useAppStore } from '@/store/AppStore';
 import { ProductsItem, useProductsStore } from '@/store/ProductsStore';
-import { Separator } from './ui/separator';
 import Image from 'next/image';
-
 import { useRouter } from 'next/navigation';
 
-export default function Cart({
-    onClose,
-}: {
-    onClose: () => void;
-}) {
+export default function Cart({ onClose }: { onClose: () => void; }) {
     const { cart } = useProductsStore((state) => state);
     const { showSignIn, closeDrawer, user } = useAppStore();
     const router = useRouter();
@@ -37,23 +31,14 @@ export default function Cart({
                     <CardTitle>Shopping Cart</CardTitle>
                     <CardDescription>Your watches</CardDescription>
                 </div>
-                <Button
-                    onClick={onClose}
-                    size="icon"
-                    variant="ghost"
-                >
+                <Button onClick={onClose} size="icon" variant="ghost">
                     <span>Close</span>
                 </Button>
             </CardHeader>
             {cart.length > 0 ? (
                 <>
-                    <CartProductsList
-                        data={cart}
-                    />
-                    <CartProductsInfo
-                        cartItems={cart}
-                        onCheckout={() => handleProceedToCheckout()}
-                    />
+                    <CartProductsList data={cart} />
+                    <CartProductsInfo cartItems={cart} onCheckout={handleProceedToCheckout} />
                 </>
             ) : (
                 <div className="flex items-center justify-center mt-12 h-full">
@@ -64,11 +49,7 @@ export default function Cart({
     );
 }
 
-const CartProductsList = ({
-    data,
-}: {
-    data: ProductsItem[];
-}) => {
+const CartProductsList = ({ data }: { data: ProductsItem[]; }) => {
     const { removeFromCart, increaseQuantity, decreaseQuantity } = useProductsStore();
 
     return (
@@ -117,16 +98,8 @@ const CartProductsList = ({
     );
 };
 
-
-
-const CartProductsInfo = ({
-    cartItems,
-    onCheckout,
-}: {
-    cartItems: ProductsItem[];
-    onCheckout: () => void;
-}) => {
-    const subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
+const CartProductsInfo = ({ cartItems, onCheckout }: { cartItems: ProductsItem[]; onCheckout: () => void; }) => {
+    const subtotal = cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0);
     const taxRate = 0.1;
     const tax = subtotal * taxRate;
     const discount = 20;
