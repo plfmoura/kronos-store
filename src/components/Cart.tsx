@@ -6,7 +6,7 @@ import { useAppStore } from '@/store/AppStore';
 import { ProductsItem, useProductsStore } from '@/store/ProductsStore';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import api_data from '../api/data.json'; // Importe os dados da API
+import api_data from '../api/data.json'; 
 
 export default function Cart({ onClose }: { onClose: () => void; }) {
     const { cart } = useProductsStore((state) => state);
