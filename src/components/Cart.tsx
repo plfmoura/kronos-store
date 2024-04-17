@@ -6,6 +6,7 @@ import { useAppStore } from '@/store/AppStore';
 import { ProductsItem, useProductsStore } from '@/store/ProductsStore';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import api_data from '../api/data.json'; // Importe os dados da API
 
 export default function Cart({ onClose }: { onClose: () => void; }) {
     const { cart } = useProductsStore((state) => state);
@@ -68,10 +69,20 @@ const CartProductsList = ({ data }: { data: ProductsItem[]; }) => {
                             <h2 className="font-semibold text-lg sm:text-xl">{item.name}</h2>
                             <div className="flex items-center gap-4">
                                 <div className="flex items-center gap-0.5">
-                                    <CheckIcon className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                                    <span className="text-gray-500 dark:text-gray-400">In Stock</span>
+                                    {item.stock > 0 ? (
+                                        <CheckIcon className="h-4 w-4 text-green-500" />
+                                    ) : (
+                                        <MinusIcon className="h-4 w-4 text-red-500" />
+                                    )}
+                                    <span className={item.stock > 0 ? "text-green-500" : "text-red-500"}>
+                                        {item.stock > 0 ? "In Stock" : "Out of Stock"}
+                                    </span>
                                 </div>
-                                <Button size="icon" variant="outline" onClick={() => removeFromCart(item.id)}>
+                                <Button
+                                    size="icon"
+                                    variant="outline"
+                                    onClick={() => removeFromCart(item.id)}
+                                >
                                     <TrashIcon className="h-4 w-4" />
                                     <span className="sr-only">Remove</span>
                                 </Button>
@@ -81,12 +92,20 @@ const CartProductsList = ({ data }: { data: ProductsItem[]; }) => {
                     <div className="ml-auto grid gap-0.5 text-right">
                         <h3 className="font-semibold">${item.price}</h3>
                         <div className="flex items-center gap-2">
-                            <Button variant="outline" onClick={() => decreaseQuantity(item.id)}>
+                            <Button
+                                variant="outline"
+                                onClick={() => decreaseQuantity(item.id)}
+                                disabled={item.quantity === 1}
+                            >
                                 <MinusIcon className="h-2 w-2" />
                                 <span className="sr-only">Decrease</span>
                             </Button>
                             <span className="text-sm font-medium">{item.quantity || 1}</span>
-                            <Button variant="outline" onClick={() => increaseQuantity(item.id)}>
+                            <Button
+                                variant="outline"
+                                onClick={() => increaseQuantity(item.id)}
+                                disabled={item.stock === 0}
+                            >
                                 <PlusIcon className="h-2 w-2" />
                                 <span className="sr-only">Increase</span>
                             </Button>
@@ -128,5 +147,5 @@ const CartProductsInfo = ({ cartItems, onCheckout }: { cartItems: ProductsItem[]
             </div>
             <Button className="mt-4 w-full lg:w-auto" onClick={onCheckout}>Proceed to Checkout</Button>
         </div>
-    );
+    );
 };
