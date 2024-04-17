@@ -25,7 +25,6 @@ export default function ProductInfo({
     const handleAddToCart = (id: number) => {
         addToCart(id);
 
-        // TO DO add toast message to confirm product added to cart before redirecting
         router.push("/products");
     };
 
