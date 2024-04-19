@@ -17,7 +17,7 @@ type ProductsStore = {
     addToCart: (id: number) => void;
     removeFromCart: (id: number) => void;
     clearCart: () => void;
-    increaseQuantity: (id: number) => void;
+    increaseQuantity: (id: number, state?: any) => void;
     decreaseQuantity: (id: number) => void;
 };
 
@@ -39,18 +39,22 @@ export const useProductsStore = create<ProductsStore>((set) => ({
         })),
     clearCart: () => set({ cart: [] }),
     cart: [],
-    increaseQuantity: (id) =>
+        
+    increaseQuantity: (id) => {
+        const stock = api_data.filter((item) => item.id === id)[0].stock;
+
         set((state) => ({
             cart: state.cart.map((item) =>
-                item.id === id
+                item.id === id && item.quantity && item.quantity < stock
                     ? {
                           ...item,
                           quantity: (item.quantity || 0) + 1,
-                          total: (item.price || 0) * ((item.quantity || 0) + 1), // Calculando o novo preço total do item
+                          total: (item.price || 0) * ((item.quantity || 0) + 1), // Calculando o novo preço total do item
                       }
                     : item
             ),
-        })),
+        }))
+    },
     decreaseQuantity: (id) =>
         set((state) => ({
             cart: state.cart.map((item) =>

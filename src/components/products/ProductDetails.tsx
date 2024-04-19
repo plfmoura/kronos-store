@@ -1,5 +1,4 @@
 'use client';
-/* eslint-disable react/no-unescaped-entities */
 
 import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
