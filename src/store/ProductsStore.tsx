@@ -39,18 +39,23 @@ export const useProductsStore = create<ProductsStore>((set) => ({
         })),
     clearCart: () => set({ cart: [] }),
     cart: [],
-    increaseQuantity: (id) =>
+    increaseQuantity: (id) => {
+        const stockData = api_data.filter((item) => item.id === id);
+        const stock = stockData[0]?.stock || 0; 
+
         set((state) => ({
             cart: state.cart.map((item) =>
-                item.id === id
+                item.id === id && item.quantity && item.quantity < stock
                     ? {
                           ...item,
-                          quantity: (item.quantity || 0) + 1,
-                          total: (item.price || 0) * ((item.quantity || 0) + 1), // Calculando o novo preço total do item
+                          quantity: (item.quantity || 0) + 1, 
+                          total: (item.price || 0) * ((item.quantity || 0) + 1),
                       }
                     : item
             ),
-        })),
+        }));
+    },
+
     decreaseQuantity: (id) =>
         set((state) => ({
             cart: state.cart.map((item) =>
