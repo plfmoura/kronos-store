@@ -6,7 +6,7 @@ import { useAppStore } from '@/store/AppStore';
 import { ProductsItem, useProductsStore } from '@/store/ProductsStore';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import api_data from '../api/data.json';
+import api_data from '../api/data.json'; 
 
 export default function Cart({ onClose }: { onClose: () => void; }) {
     const { cart } = useProductsStore((state) => state);
@@ -69,15 +69,14 @@ const CartProductsList = ({ data }: { data: ProductsItem[]; }) => {
                             <h2 className="font-semibold text-lg sm:text-xl">{item.name}</h2>
                             <div className="flex items-center gap-4">
                                 <div className="flex items-center gap-0.5">
-                                    <div className="flex flex-col gap-2">
-                                        <span className={item.stock > 0 ? "text-green-500" : "text-red-500"}>
-                                            {item.stock > 0 ? "In Stock" : "Out of Stock"}
-                                        </span>
-                                        <span className='text-sm text-green-500'>
-                                            Available {item.stock}
-                                        </span>
-
-                                    </div>
+                                    {item.stock > 0 ? (
+                                        <CheckIcon className="h-4 w-4 text-green-500" />
+                                    ) : (
+                                        <MinusIcon className="h-4 w-4 text-red-500" />
+                                    )}
+                                    <span className={item.stock > 0 ? "text-green-500" : "text-red-500"}>
+                                        {item.stock > 0 ? "In Stock" : "Out of Stock"}
+                                    </span>
                                 </div>
                                 <Button
                                     size="icon"
@@ -148,5 +147,5 @@ const CartProductsInfo = ({ cartItems, onCheckout }: { cartItems: ProductsItem[]
             </div>
             <Button className="mt-4 w-full lg:w-auto" onClick={onCheckout}>Proceed to Checkout</Button>
         </div>
-    );
+    );
 };
