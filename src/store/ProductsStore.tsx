@@ -23,16 +23,40 @@ type ProductsStore = {
 
 export const useProductsStore = create<ProductsStore>((set) => ({
     products: api_data,
-    addToCart: (id) =>
+    addToCart: (id: number) => {
         set((state) => {
             const product = state.products.find((p) => p.id === id);
-            if (product) {
-                return {
-                    cart: [...state.cart, { ...product, quantity: 1, total: product.price }], // Inicializando a quantidade como 1 e o total como o preço do produto
-                };
+    
+            if (!product) {
+                return state;
             }
-            return state;
-        }),
+    
+            const cartItemIndex = state.cart.findIndex((item) => item.id === id);
+    
+            if (cartItemIndex > -1) {
+                const updatedCart = state.cart.map((item, index) => {
+                    if (index === cartItemIndex) {
+                        const newQuantity = (item.quantity ?? 0) + 1; 
+                        const newTotal = (item.total ?? 0) + (product.price ?? 0);
+    
+                        return {
+                            ...item,
+                            quantity: newQuantity,
+                            total: newTotal, 
+                        };
+                    }
+                    return item;
+                });
+    
+                return { cart: updatedCart };
+            }
+    
+            return {
+                cart: [...state.cart, { ...product, quantity: 1, total: product.price ?? 0 }],
+            };
+        });
+    },
+
     removeFromCart: (id) =>
         set((state) => ({
             cart: state.cart.filter((p) => p.id !== id),
@@ -41,16 +65,16 @@ export const useProductsStore = create<ProductsStore>((set) => ({
     cart: [],
     increaseQuantity: (id) => {
         const stockData = api_data.filter((item) => item.id === id);
-        const stock = stockData[0]?.stock || 0; 
+        const stock = stockData[0]?.stock || 0;
 
         set((state) => ({
             cart: state.cart.map((item) =>
                 item.id === id && item.quantity && item.quantity < stock
                     ? {
-                          ...item,
-                          quantity: (item.quantity || 0) + 1, 
-                          total: (item.price || 0) * ((item.quantity || 0) + 1),
-                      }
+                        ...item,
+                        quantity: (item.quantity || 0) + 1,
+                        total: (item.price || 0) * ((item.quantity || 0) + 1),
+                    }
                     : item
             ),
         }));
@@ -61,10 +85,10 @@ export const useProductsStore = create<ProductsStore>((set) => ({
             cart: state.cart.map((item) =>
                 item.id === id && item.quantity && item.quantity > 0
                     ? {
-                          ...item,
-                          quantity: item.quantity - 1,
-                          total: (item.price || 0) * (item.quantity || 0),
-                      }
+                        ...item,
+                        quantity: item.quantity - 1,
+                        total: (item.price || 0) * (item.quantity || 0),
+                    }
                     : item
             ),
         })),
